@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block titulo %} The Wall {% endblock %}
+{% block contenido %}
+{% include "nav.html" %}
+<div class="container">
+    <h1 class="text-center py-4">The Wall</h1>
+
+    <h2>Felicitaciones te pudiste Logear!</h2>
+    <h3>ID: {{request.session.usuario.id}}</h3>
+    <h3>Usuario: {{request.session.usuario.name}} </h3>
+    <h3>Correo: {{request.session.usuario.email}} </h3>
+    <h3>Rol: {{request.session.usuario.rol}} </h3>
+
+
+
+    <br>
+    <form action="/new_post" method="POST"> {% csrf_token %}
+        <div class="form-group">
+            <label class="h5">Escriba un nuevo mensaje</label>
+            <textarea class="form-control" name="post" rows="3"></textarea>
+            <br>
+            <button type="submit" class="btn btn-default btn-primary">Submit</button>
+        </div>
+    </form>
+
+
+    {% for post in all_messages%}
+    <li>{{post.message}}</li>
+    <p class="strong">{{post.user.firstname}} {{post.user.lastname}} - {{post.created_at}}</p>
+
+    {%if post.user.id == user.id%}
+    <form action="/delete_post" method="post">
+        {%csrf_token%}
+        <input type="hidden" name="delete_post_id" value="{{post.id}}">
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+    {%endif%}
+
+        {%for comment in post.comments.all%}
+        <p class="comments">{{comment.comment}}</p>
+        <p class="strong comments">{{comment.user.firstname}} {{comment.user.lastname}} - {{comment.created_at}}</p>
+        {%endfor%}
+        <form action="/new_comment" method="post">
+            {%csrf_token%}
+            <div class="form-group comments">
+                <label for="comment">Post a comment:</label>
+                <br/>
+                <textarea name="comment" cols="2" rows="5" class="form-control"></textarea>
+                <input type="hidden" name="user_id" value="{{user.id}}">
+                <input type="hidden" name="post_id" value="{{post.id}}">
+            </div>
+            <button type="submit" class="btn btn-info">Comentariot</button>
+        </form>
+    {% endfor %}
+
+
+
+</div>
+{% endblock %}

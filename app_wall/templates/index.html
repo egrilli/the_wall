@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block titulo %} The Wall{% endblock %}
+{% block contenido %}
+<div class="container">
+    <h1 class="text-center py-4">The Wall</h1>
+
+
+    <div class="row">
+        <div class="col-5">
+            <form action="/registro" method="POST">
+                {% csrf_token %}
+                <h3 class="text-center py-4">REGISTRO </h3>
+
+                <label class="form-label">Nombre</label>
+                <input type="text" class="form-control" name="firstname" value="{{request.session.registro_nombre}}">
+
+                <label class="form-label">Apellido</label>
+                <input type="text" class="form-control" name="lastname" value="{{request.session.registro_apellido}}">
+
+                <label class="form-label">Año Nacimiento</label>
+                <input type="date" class="form-control" name="dateborn" value="{{request.session.registro_apellido}}">
+
+
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" name="email" value="{{request.session.registro_email}}">
+
+                <label class="form-label">Password</label>
+                <input type="password" class="form-control" name="password">
+
+                <label class="form-label">Confirmar Contraseña</label>
+                <input type="password" class="form-control" name="password_confirm">
+
+
+                <button type="submit" class="btn btn-primary my-3">Agregar</button>
+            </form>
+        </div>
+
+        <div class="col-5">
+            <form action="/logearse" method="POST">
+                {% csrf_token %}
+                <h3 class="text-center py-4">LOGEARSE</h3>
+
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" name="email">
+
+                <label class="form-label">Password</label>
+                <input type="password" class="form-control" name="password">
+
+
+                <button type="submit" class="btn btn-primary my-3">INGRESAR</button>
+            </form>
+        </div>
+
+
+
+    </div>
+
+
+</div>
+{% endblock %}

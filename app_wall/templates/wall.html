@@ -25,8 +25,16 @@
 
 
     {% for post in all_messages%}
-    <li>{{post.message}}</li>
-    <p class="strong">{{post.user.firstname}} {{post.user.lastname}} - {{post.created_at}}</p>
+
+    <div class="card" cols="2" rows="2">
+        <div class="card-header">
+            <p class="strong">{{post.user.firstname}} {{post.user.lastname}} - {{post.created_at}}</p>
+        </div>
+        <div class="card-body">
+            <p class="card-text">{{post.message}}.</p>
+        </div>
+    </div>
+
 
     {%if post.user.id == user.id%}
     <form action="/delete_post" method="post">
@@ -36,21 +44,21 @@
     </form>
     {%endif%}
 
-        {%for comment in post.comments.all%}
-        <p class="comments">{{comment.comment}}</p>
-        <p class="strong comments">{{comment.user.firstname}} {{comment.user.lastname}} - {{comment.created_at}}</p>
-        {%endfor%}
-        <form action="/new_comment" method="post">
-            {%csrf_token%}
-            <div class="form-group comments">
-                <label for="comment">Post a comment:</label>
-                <br/>
-                <textarea name="comment" cols="2" rows="5" class="form-control"></textarea>
-                <input type="hidden" name="user_id" value="{{user.id}}">
-                <input type="hidden" name="post_id" value="{{post.id}}">
-            </div>
-            <button type="submit" class="btn btn-info">Comentariot</button>
-        </form>
+    {%for comment in post.comments.all%}
+    <p class="comments">{{comment.comment}}</p>
+    <p class="strong comments">{{comment.user.firstname}} {{comment.user.lastname}} - {{comment.created_at}}</p>
+    {%endfor%}
+    <form action="/new_comment" method="post">
+        {%csrf_token%}
+        <div class="form-group comments">
+            <label for="comment">Post a comment:</label>
+            <br>
+            <textarea name="comment" cols="2" rows="5" class="form-control"></textarea>
+            <input type="hidden" name="user_id" value="{{user.id}}">
+            <input type="hidden" name="post_id" value="{{post.id}}">
+        </div>
+        <button type="submit" class="btn btn-info">Comentariot</button>
+    </form>
     {% endfor %}
 
 

@@ -26,7 +26,7 @@
 
     {% for post in all_messages%}
 
-    <div class="card" cols="2" rows="2">
+    <div class="card">
         <div class="card-header">
             <p class="strong">{{post.user.firstname}} {{post.user.lastname}} - {{post.created_at}}</p>
         </div>
@@ -36,18 +36,31 @@
     </div>
 
 
+
     {%if post.user.id == user.id%}
     <form action="/delete_post" method="post">
         {%csrf_token%}
         <input type="hidden" name="delete_post_id" value="{{post.id}}">
+        <br>
         <button type="submit" class="btn btn-danger">Delete</button>
     </form>
     {%endif%}
 
-    {%for comment in post.comments.all%}
-    <p class="comments">{{comment.comment}}</p>
-    <p class="strong comments">{{comment.user.firstname}} {{comment.user.lastname}} - {{comment.created_at}}</p>
-    {%endfor%}
+    <div class="col-8">
+        {%for comment in post.comments.all%}
+        <br>
+        <div class="card">
+            <div class="card-header">
+                <p class="strong comments">{{comment.user.firstname}} {{comment.user.lastname}} - {{comment.created_at}}
+                </p>
+            </div>
+            <div class="card-body">
+                <p class="card-text">{{comment.comment}}.</p>
+            </div>
+        </div>
+
+        {%endfor%}
+    </div>
     <form action="/new_comment" method="post">
         {%csrf_token%}
         <div class="form-group comments">
@@ -60,6 +73,8 @@
         <button type="submit" class="btn btn-info">Comentariot</button>
     </form>
     {% endfor %}
+
+
 
 
 
